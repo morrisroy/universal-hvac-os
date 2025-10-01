@@ -1,0 +1,17 @@
+body { font-family: Arial, sans-serif; margin: 0; background: #f4f7fa; }
+.navbar { background: linear-gradient(90deg, #1f2937, #111827); padding: 1em; display: flex; gap: 1em; }
+.navbar a { color: #fff; text-decoration: none; font-weight: bold; }
+.navbar a:hover { text-decoration: underline; }
+.navbar a.active { border-bottom: 2px solid #3b82f6; }
+
+main { padding: 1.5em; }
+h1, h2 { color: #1f2937; }
+
+.alert { padding: 1em; margin: 0.5em 0; border-radius: 8px; color: #fff; display: flex; justify-content: space-between; align-items: center; }
+.alert button { background: #fff; border: none; padding: 0.3em 0.6em; border-radius: 4px; cursor: pointer; font-weight: bold; }
+.alert button:hover { background: #e5e7eb; }
+
+.alert.error { background: #dc2626; }
+.alert.warning { background: #f59e0b; }
+.alert.info { background: #2563eb; }
+#resolved-alerts .alert { opacity: 0.85; }
