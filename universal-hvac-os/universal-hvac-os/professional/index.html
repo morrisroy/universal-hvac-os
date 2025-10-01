@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>HVAC OS — Professional Dashboard</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="../shared/styles.css">
+  <link rel="stylesheet" href="professional.css">
+</head>
+<body>
+  <nav class="topbar">
+    <div class="brand">Universal HVAC OS — Professional</div>
+    <div class="right">Operator • <a href="#">Logout</a></div>
+  </nav>
+
+  <main class="container">
+    <section class="cards">
+      <div class="card">
+        <h3>Active Alarms</h3>
+        <p id="alarms">0</p>
+      </div>
+      <div class="card">
+        <h3>Critical Units</h3>
+        <p id="crit">0</p>
+      </div>
+      <div class="card">
+        <h3>Avg Temp (Zone 1)</h3>
+        <p id="avgtemp">-- °F</p>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Zone 1 Temperature (Live)</h2>
+      <canvas id="tempChart" height="120"></canvas>
+    </section>
+
+    <section class="panel">
+      <h2>Controls</h2>
+      <div class="controls">
+        <label>Setpoint: <input id="setpoint" type="number" value="72"></label>
+        <button id="setBtn">Send Setpoint</button>
+        <button id="recBtn">Start Manual Recording</button>
+      </div>
+      <div id="log" class="log"></div>
+    </section>
+  </main>
+
+<script src="../shared/script.js"></script>
+<script>
+/* Simple demo: simulate live data and hook buttons to API calls (placeholders) */
+const ctx = document.getElementById('tempChart').getContext('2d');
+const labels = Array.from({length:12},(_,i)=>i?`${i*5}s`:`now`);
+const data = {
+  labels,
+  datasets: [{
+    label: 'Zone 1 Temp (°F)',
+    data: Array.from({length:12},()=>70 + Math.random()*4),
+    fill: true,
+    tension: 0.3
+  }]
+};
+const tempChart = new Chart(ctx, {type:'line', data, options:{animation:false}});
+
+function pushSample(){
+  const next = 70 + Math.random()*4;
+  data.labels.push(new Date().toLocaleTimeString());
+  data.labels.shift();
+  data.datasets[0].data.push(next);
+  data.datasets[0].data.shift();
+  tempChart.update();
+  document.getElementById('avgtemp').innerText = (Math.round(next*10)/10) + ' °F';
+}
+setInterval(pushSample, 5000);
+
+document.getElementById('setBtn').addEventListener('click', async ()=>{
+  const v = Number(document.getElementById('setpoint').value);
+  log('Setpoint requested: ' + v);
+  // placeholder POST to backend
+  try {
+    await fetch('/api/v1/thermostat/asset-1/set', {method:'POST', headers:{'content-type':'application/json'}, body:JSON.stringify({setpoint_heating:v, mode:'auto'})});
+    log('Setpoint sent to API');
+  } catch(e){
+    log('API call failed (demo): ' + e);
+  }
+});
+
+document.getElementById('recBtn').addEventListener('click', async ()=>{
+  log('Requesting manual recording...');
+  try {
+    await fetch('/api/v1/recordings/start', {method:'POST', headers:{'content-type':'application/json'}, body:JSON.stringify({device_id:'device-sim-1', duration:300})});
+    log('Recording started (API demo).');
+  } catch(e){
+    log('API call failed (demo): ' + e);
+  }
+});
+
+function log(s){
+  const el = document.getElementById('log');
+  const line = document.createElement('div');
+  line.textContent = '['+new Date().toLocaleTimeString()+'] ' + s;
+  el.prepend(line);
+}
+</script>
+</body>
+</html>

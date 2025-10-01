@@ -1,0 +1,10 @@
+
+/* professional.css - corporate dashboard styles */
+.topbar{display:flex;justify-content:space-between;align-items:center;padding:10px 20px;background:#0b2239;color:#fff}
+.brand{font-weight:700}
+.container{padding:20px;max-width:1100px;margin:0 auto}
+.cards{display:flex;gap:16px;margin-bottom:20px}
+.card{flex:1;background:#fff;padding:16px;border-radius:8px;box-shadow:0 2px 6px rgba(11,34,57,0.08)}
+.panel{background:#fff;padding:16px;border-radius:8px;box-shadow:0 2px 6px rgba(11,34,57,0.06);margin-bottom:20px}
+.controls label{margin-right:12px}
+.log{height:120px;overflow:auto;background:#f6f8fa;padding:8px;border-radius:6px}

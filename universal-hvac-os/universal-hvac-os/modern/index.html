@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>HVAC OS — Modern Dashboard</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="../shared/styles.css">
+  <link rel="stylesheet" href="modern.css">
+</head>
+<body class="modern">
+  <header class="m-header">
+    <div class="logo">HVAC • Modern</div>
+    <nav><a href="#">Dashboard</a><a href="technician.html">Technician</a></nav>
+  </header>
+
+  <main class="m-main">
+    <aside class="m-side">
+      <div class="widget">
+        <h4>Alerts</h4>
+        <div id="m-alerts">0</div>
+      </div>
+      <div class="widget">
+        <h4>Last Event</h4>
+        <div id="m-last">—</div>
+      </div>
+    </aside>
+
+    <section class="m-content">
+      <h2>Live Zone 1</h2>
+      <canvas id="mChart" height="120"></canvas>
+
+      <div class="m-actions">
+        <input id="m-set" type="number" value="72" />
+        <button id="m-set-btn">Set</button>
+      </div>
+    </section>
+  </main>
+
+<script src="../shared/script.js"></script>
+<script>
+const ctx = document.getElementById('mChart').getContext('2d');
+const data = {
+  labels: Array.from({length:20},(_,i)=>i),
+  datasets:[{label:'Zone1',data:Array.from({length:20},()=>70+Math.random()*4),tension:0.4}]
+};
+const mChart = new Chart(ctx, {type:'line',data,options:{plugins:{legend:{display:false}}}});
+setInterval(()=>{ 
+  data.datasets[0].data.push(70+Math.random()*4);
+  data.datasets[0].data.shift();
+  mChart.update();
+},5000);
+
+document.getElementById('m-set-btn').addEventListener('click', async ()=>{
+  const v = Number(document.getElementById('m-set').value);
+  try {
+    await fetch('/api/v1/thermostat/asset-1/set',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({setpoint_heating:v})});
+    document.getElementById('m-last').innerText = 'Setpoint ' + v;
+  } catch(e){
+    document.getElementById('m-last').innerText = 'API error';
+  }
+});
+</script>
+</body>
+</html>
