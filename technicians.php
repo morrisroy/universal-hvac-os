@@ -1,0 +1,5 @@
+<?php require_once 'includes/auth.php'; require_login(); if(!is_admin()){ echo 'Access denied'; exit; } $techs = read_json('data/users.json'); ?>
+<!doctype html><html><head><meta charset='utf-8'><title>Technicians</title><link rel='stylesheet' href='style.css'></head><body>
+<div class='card'><h2>Technicians</h2><ul><?php foreach($techs as $t) echo '<li>'.htmlspecialchars($t['name']).' - '.htmlspecialchars($t['email']).' - '.htmlspecialchars($t['phone']).' ('.htmlspecialchars($t['carrier']).') <a href="manage_users.php?action=delete&phone='.urlencode($t['phone']).'">Delete</a></li>'; ?></ul>
+<h3>Add Technician</h3><form method='post' action='manage_users.php'><input name='action' type='hidden' value='add'><input name='name' required placeholder='Name'><input name='email' placeholder='Email'><input name='phone' placeholder='Phone'><select name='carrier'><option value='vtext.com'>Verizon</option><option value='txt.att.net'>AT&T</option><option value='tmomail.net'>T-Mobile</option><option value='messaging.sprintpcs.com'>Sprint</option></select><button>Add</button></form>
+<p><a href='menu.php'>Back</a></p></div></body></html>

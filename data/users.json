@@ -1,0 +1,14 @@
+[
+  {
+    "name": "Technician A",
+    "email": "techA@example.com",
+    "phone": "1234567890",
+    "carrier": "vtext.com"
+  },
+  {
+    "name": "Technician B",
+    "email": "techB@example.com",
+    "phone": "9876543210",
+    "carrier": "txt.att.net"
+  }
+]

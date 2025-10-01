@@ -1,0 +1,1 @@
+Place PHPMailer src files into includes/PHPMailer/src/. Download from https://github.com/PHPMailer/PHPMailer
