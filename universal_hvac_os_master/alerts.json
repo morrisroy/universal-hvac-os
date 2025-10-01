@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "unit": "Trane Rooftop AC #12",
+    "message": "High pressure fault detected",
+    "timestamp": "2025-10-01T09:15:00Z"
+  },
+  {
+    "id": 2,
+    "unit": "Samsung VRF #4",
+    "message": "Filter needs maintenance",
+    "timestamp": "2025-10-01T08:40:00Z"
+  },
+  {
+    "id": 3,
+    "unit": "Mitsubishi Heat Pump #7",
+    "message": "System running normally",
+    "timestamp": "2025-10-01T07:55:00Z"
+  }
+]

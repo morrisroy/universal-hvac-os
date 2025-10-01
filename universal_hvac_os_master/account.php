@@ -1,0 +1,3 @@
+<?php require_once 'includes/auth.php'; require_login(); $u=$_SESSION['user']; ?>
+<!doctype html><html><head><meta charset='utf-8'><title>Account</title><link rel='stylesheet' href='style.css'></head><body>
+<div class='card'><h2>Account</h2><p>Username: <?php echo htmlspecialchars($u['username']); ?></p><p>Email: <?php echo htmlspecialchars($u['email']??''); ?></p><p><a href='menu.php'>Back</a></p></div></body></html>
